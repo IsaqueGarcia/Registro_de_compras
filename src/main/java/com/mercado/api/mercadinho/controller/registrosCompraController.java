@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mercado.api.mercadinho.Utils.Util;
 import com.mercado.api.mercadinho.model.registrosCompra;
 import com.mercado.api.mercadinho.service.registrosCompraService;
 
@@ -32,7 +33,8 @@ public class registrosCompraController {
 			responseJson.put("returnDescription","INTERNAL SERVER ERROR (TIME OUT)");
 			return new ResponseEntity<String>(responseJson.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<String>(responseJson.toString(), HttpStatus.OK);
+		String code = responseJson.isNull("returnCode") ? "1000" : responseJson.getString("returnCode");
+		return new ResponseEntity<String>(responseJson.toString(), Util.returnCode(code));
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -46,7 +48,8 @@ public class registrosCompraController {
 			responseJson.put("returnDescription","INTERNAL SERVER ERROR (TIME OUT)");
 			return new ResponseEntity<String>(responseJson.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<String>(responseJson.toString(), HttpStatus.OK);
+		String code = responseJson.isNull("returnCode") ? "1000" : responseJson.getString("returnCode");
+		return new ResponseEntity<String>(responseJson.toString(), Util.returnCode(code));
 	}
 	
 	@RequestMapping(value = "busca/valorTotal", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -59,7 +62,8 @@ public class registrosCompraController {
 			responseJson.put("returnDescription","INTERNAL SERVER ERROR (TIME OUT)");
 			return new ResponseEntity<String>(responseJson.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<String>(responseJson.toString(), HttpStatus.OK);
+		String code = responseJson.isNull("returnCode") ? "1000" : responseJson.getString("returnCode");
+		return new ResponseEntity<String>(responseJson.toString(), Util.returnCode(code));
 	}
 	
 	@RequestMapping(value = "gerarExcel", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -72,7 +76,8 @@ public class registrosCompraController {
 			responseJson.put("returnDescription","INTERNAL SERVER ERROR (TIME OUT)");
 			return new ResponseEntity<String>(responseJson.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<String>(responseJson.toString(), HttpStatus.OK);
+		String code = responseJson.isNull("returnCode") ? "1000" : responseJson.getString("returnCode");
+		return new ResponseEntity<String>(responseJson.toString(), Util.returnCode(code));
 	}
 	
 

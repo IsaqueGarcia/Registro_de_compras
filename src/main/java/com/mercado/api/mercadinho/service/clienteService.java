@@ -28,8 +28,18 @@ public class clienteService {
 				return responseJson;
 			}
 			produto p = produtoRepo.buscaProdutoPeloNome(input.getNomeProduto());
+			
+			Integer quantidadeAtual = p.getQuantidade();
+			
 			input.setPrecoUnit(p.getPreco());
 			p.setQuantidade(p.getQuantidade() - input.getQuantidade());
+			
+			if(p.getQuantidade() <= 0){
+				responseJson.put("returnCode", "2");
+				responseJson.put("returnDescription", "Quantidade indisponivel no estoque!" + " Disponivel: " + quantidadeAtual);
+				return responseJson;
+			}
+			
 			produtoRepo.save(p);
 			repository.save(input);
 			responseJson.put("returnCode", "0");

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mercado.api.mercadinho.Utils.Util;
 import com.mercado.api.mercadinho.model.produto;
 import com.mercado.api.mercadinho.service.produtoService;
 
@@ -32,7 +33,8 @@ public class produtoController {
 			responseJson.put("returnDescription","INTERNAL SERVER ERROR (TIME OUT)");
 			return new ResponseEntity<String>(responseJson.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<String>(responseJson.toString(), HttpStatus.OK);
+		String code = responseJson.isNull("returnCode") ? "1000" : responseJson.getString("returnCode");
+		return new ResponseEntity<String>(responseJson.toString(), Util.returnCode(code));
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -46,6 +48,7 @@ public class produtoController {
 			responseJson.put("returnDescription","INTERNAL SERVER ERROR (TIME OUT)");
 			return new ResponseEntity<String>(responseJson.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		return new ResponseEntity<String>(responseJson.toString(), HttpStatus.OK);
+		String code = responseJson.isNull("returnCode") ? "1000" : responseJson.getString("returnCode");
+		return new ResponseEntity<String>(responseJson.toString(), Util.returnCode(code));
 	}
 }

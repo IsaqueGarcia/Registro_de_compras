@@ -11,11 +11,23 @@ import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import org.springframework.http.HttpStatus;
 
 import com.mercado.api.mercadinho.model.registrosCompra;
 
 public class Util {
 
+	public static HttpStatus returnCode(String code){
+		Integer codeParse = Integer.parseInt(code);
+		if(codeParse == 0){
+			return HttpStatus.OK;
+		}else if(codeParse > 0 &&  codeParse <= 10 ){
+			return HttpStatus.UNPROCESSABLE_ENTITY;
+		}else{
+			return HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+	}
+	
 	
 	public static void criaArquivoExcel(String nomeArquivo,List<registrosCompra> registro,Double valorTotal) {
 		HSSFWorkbook workbook = new HSSFWorkbook();
