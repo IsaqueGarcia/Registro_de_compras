@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils;
 
 import com.mercado.api.mercadinho.Utils.Util;
 import com.mercado.api.mercadinho.model.cliente;
-import com.mercado.api.mercadinho.model.produto;
 import com.mercado.api.mercadinho.model.registrosCompra;
 import com.mercado.api.mercadinho.repository.registrosCompraRepository;
 
@@ -26,22 +25,20 @@ public class registrosCompraService {
 	public JSONObject criarRegistro(registrosCompra input){
 		JSONObject responseJson = new JSONObject();
 		try{
-			if(StringUtils.isEmpty(input.getIdCliente()) || StringUtils.isEmpty(input.getIdProduto())){
+			if(StringUtils.isEmpty(input.getIdCliente())){
 				responseJson.put("returnCode", "2");
 				responseJson.put("returnDescription", "Os campos cliente e produto não podem estar vazios.");
 				return responseJson;
 			}
-			produto pro = repository.buscaProdutoPeloId(input.getIdProduto());
 			cliente cli = repository.buscaClientePeloId(input.getIdCliente());
 			
 			input.setCliente(cli);
-			input.setProduto(pro);
 			
-			input.setNomeProduto(pro.getNome());
+			input.setNomeProduto(cli.getNomeProduto());
 			input.setNomeCliente(cli.getNome());
-			input.setPrecoUnit(pro.getPreco());
-			input.setQtd(pro.getQuantidade());
-			input.setPrecoTotal(pro.getQuantidade() * pro.getPreco());
+			input.setPrecoUnit(cli.getPrecoUnit());
+			input.setQtd(cli.getQuantidade());
+			input.setPrecoTotal(cli.getQuantidade() * cli.getPrecoUnit());
 			input.setDtCompra(sdf.format(new Date()));
 			
 			repository.saveAndFlush(input);
@@ -92,6 +89,11 @@ public class registrosCompraService {
 		JSONObject responseJson = new JSONObject();
 		try{
 			Double valorTotal = repository.valorTotal();
+			if(valorTotal == null){
+				responseJson.put("returnCode", "0");
+				responseJson.put("returnDescription", "Nenhum valor registrado");
+				return responseJson;
+			}
 			responseJson.put("VALOR_TOTAL","R$" + valorTotal);
 		}catch(Exception e){
 			System.out.println("ERROR::" + e.getMessage());

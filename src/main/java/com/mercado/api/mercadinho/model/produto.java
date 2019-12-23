@@ -2,14 +2,11 @@ package com.mercado.api.mercadinho.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -31,10 +28,6 @@ public class produto implements Serializable {
 	private String tipo;
 	@Column(name = "FORNECEDOR")
 	private String fornecedor;
-	
-	@OneToOne(mappedBy = "produto", cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY, optional = true)
-	private registrosCompra registro;
 	
 	public produto(){
 	}
@@ -89,13 +82,6 @@ public class produto implements Serializable {
 		this.id = id;
 	}
 
-	public registrosCompra getRegistro() {
-		return registro;
-	}
-
-	public void setRegistro(registrosCompra registro) {
-		this.registro = registro;
-	}
 
 	public Double getPreco() {
 		return preco;
